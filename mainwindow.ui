@@ -14,7 +14,62 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+	background-color:#3A3845;
+}
+
+QPushButton{  
+	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
+	background-color:#44c767;
+	border-radius:10%;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:22px;
+	padding:3px 3px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+
+QPushButton:hover{
+	background:linear-gradient(to bottom, #5cbf2a 5%, #44c767 100%);
+	background-color:#5cbf2a;
+}
+
+QPushButton:disabled {
+  background-color:rgba(68, 199, 103, 0.5);
+  border:rgba(68, 199, 103, 0.5);
+}
+
+QLineEdit{
+     padding: 5px;
+     font-size: 16px;
+     border-width: 1px;
+     border-color: #44c767;
+     background-color: #fff;
+     color: #000000;
+     border-style: solid;
+     border-radius: 10%;
+     box-shadow: 0px 0px 0px rgba(66,66,66,.75);
+     text-shadow: 0px 0px 0px rgba(66,66,66,.75);
+}
+
+QLineEdit:focus {
+     outline:none;
+}
+
+QLabel {
+	color: #fff;
+	font-weight: bold;
+	display: block;
+	font-family:Arial;
+	font-size:16px;
+}</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>53</x>
