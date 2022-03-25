@@ -18,15 +18,14 @@ Matriz::Matriz(int qtdLinhas, int qtdColunas):
 }
 bool Matriz::eMesmaOrdem() const
 {
-    if(qtdLinhas != qtdColunas) throw QString ("A Matriz não é quadrada. Operação não pode prosseguir.");
-    return true;
+    if(qtdLinhas == qtdColunas) return true;
+    return false;
 }
 
 bool Matriz::eMesmaOrdem(const Matriz * const matriz) const
 {
-    if(qtdLinhas != qtdColunas) return false;
-    if(qtdLinhas != matriz->qtdLinhas || qtdColunas != matriz->qtdColunas) return false;
-    return true;
+    if(qtdLinhas == matriz->qtdLinhas && qtdColunas == matriz->qtdColunas) return true;
+    return false;
 }
 
 Matriz::Matriz():
@@ -114,7 +113,7 @@ Matriz* Matriz::calcularTransposta() const
 Matriz* Matriz::calcularPotenciacao(int expoente) const
 {
     if (expoente <= 0) throw QString ("O expoente não pode ser <= 0.");
-    eMesmaOrdem();
+    if(!eMesmaOrdem()) throw QString ("A Matriz não é quadrada. Operação não pode prosseguir.");
     try {
         Matriz *aux = new Matriz(qtdLinhas, qtdColunas);
         aux->matriz = this->matriz;
@@ -146,7 +145,7 @@ Matriz *Matriz::calcularMultiplicacaoPorK(int k) const
 
 bool Matriz::eTriangularSuperior() const //perguntar se tem try catch aqui!
 {
-    return (eMesmaOrdem());
+    if (!eMesmaOrdem()) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");;
     bool verificar = false;
     for (int i = 0; i < qtdLinhas; i++){
         for(int j = 0; j < qtdColunas; j++){
@@ -158,7 +157,7 @@ bool Matriz::eTriangularSuperior() const //perguntar se tem try catch aqui!
 
 bool Matriz::eTriangularInferior() const
 {
-    return (eMesmaOrdem());
+    if (!eMesmaOrdem()) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");;
     bool verificar = false;
     for (int i = 0; i < qtdLinhas; i++){
         for(int j = 0; j < qtdColunas; j++){
@@ -170,19 +169,27 @@ bool Matriz::eTriangularInferior() const
 
 bool Matriz::eSimetrica() const
 {
-    return (eMesmaOrdem());
+    //if (!eMesmaOrdem()) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");;
     //se matriz == transposta é simetrica!
-    return ( this == this->calcularTransposta());
+    return ( *this == this->calcularTransposta());
 }
 
 bool Matriz::eIdentidade() const
 {
-    return (eTriangularInferior() == eTriangularSuperior());
+    if(!eMesmaOrdem()) return false;
+
+    for(int i = 0; i < qtdLinhas; i++){
+        for(int j = 0; j < qtdColunas; j++){
+            if(i == j && getElemento(i, j) != 1) return false;
+            if((i > j || i < j) && getElemento(i, j) != 0) return false;
+        }
+    }
+    return true;
 }
 
 Matriz* Matriz::operator +(const Matriz * const matriz) const
 {
-    if (eMesmaOrdem(matriz)) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");
+    if (!eMesmaOrdem(matriz)) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");
     try {
         Matriz *aux = new Matriz(qtdLinhas, qtdColunas);
         for (int i = 0; i < qtdLinhas; i++){
@@ -199,7 +206,7 @@ Matriz* Matriz::operator +(const Matriz * const matriz) const
 
 Matriz* Matriz::operator -(Matriz const * const matriz) const
 {
-    if (eMesmaOrdem(matriz)) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");
+    if (!eMesmaOrdem(matriz)) throw QString("Matrizes de ordem diferente. Operação não pode prosseguir.");
     try {
         Matriz *aux = new Matriz(qtdLinhas,qtdColunas);
         for (int i = 0; i < qtdLinhas; i++){
@@ -238,11 +245,9 @@ Matriz* Matriz::operator *(Matriz const * const matriz) const
 bool Matriz::operator ==(Matriz const * const matriz) const
 {
     try {
-        if(!eMesmaOrdem(matriz)) return false;
-
         for(int i = 0; i < getQtdLinhas(); i++){
             for(int j = 0; j < getQtdColunas(); j++){
-                if(!(this->getElemento(i, j) == matriz->getElemento(i, j))) return false;
+                if(this->getElemento(i, j) != matriz->getElemento(i, j)) return false;
             }
         }
         return true;
@@ -254,7 +259,7 @@ bool Matriz::operator ==(Matriz const * const matriz) const
 bool Matriz::operator !=(Matriz const * const matriz) const
 {
     try {
-        return ( this == matriz);
+        return (!(*this == matriz));
     }  catch (std::bad_alloc const&) {
         throw QString ("Erro de memória");
     }

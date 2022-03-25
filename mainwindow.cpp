@@ -300,7 +300,7 @@ void MainWindow::on_pushButton_EIgual_clicked()
 {
     try {
         QString saida = "Matrizes A e B são iguais? "
-                + QString::number(Matriz1 == Matriz2);
+                + QString::number(*Matriz1 == Matriz2);
 
         ui->textEdit_ResultadosBool->setText(saida);
     }  catch (QString &erro) {
@@ -313,7 +313,7 @@ void MainWindow::on_pushButton_EDiferente_clicked()
 {
     try {
         QString saida = "Matrizes A e B são diferentes? "
-                + QString::number(Matriz1 != Matriz2);
+                + QString::number(*Matriz1 != Matriz2);
 
         ui->textEdit_ResultadosBool->setText(saida);
     }  catch (QString &erro) {
