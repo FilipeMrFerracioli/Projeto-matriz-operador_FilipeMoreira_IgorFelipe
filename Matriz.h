@@ -29,9 +29,6 @@ public:
 
 
     void inserirElemento(int elemento, int linha, int coluna) const;
-    Matriz* calcularAdicao(Matriz const * const matriz) const;
-    Matriz* calcularSubtracao(Matriz const * const matriz) const;
-    Matriz* calcularMultiplicacao(Matriz const * const matriz) const;
 
     Matriz* calcularTransposta() const;
     Matriz* calcularPotenciacao(int expoente) const;
@@ -41,8 +38,6 @@ public:
     bool eTriangularInferior() const;
     bool eSimetrica() const;
     bool eIdentidade() const;
-    bool eIgual(Matriz matriz) const;
-    bool eDiferente(Matriz matriz) const;
 
     // Sobrecargas de operadores
     Matriz* operator +(Matriz const * const matriz) const;
